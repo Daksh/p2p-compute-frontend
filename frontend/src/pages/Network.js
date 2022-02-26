@@ -46,7 +46,7 @@ class Network extends Component {
               <p>{msg}</p>
             </div>
           ))}
-        <input
+        <textarea
           value={message}
           name="message"
           onChange={(e) => this.onChange(e)}

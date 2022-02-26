@@ -14,11 +14,10 @@ def index():
     return render_template('index.html', async_mode=socket_.async_mode)
 
 
-@app.route('/docker_execution')
-def index_execution():
-    file_name = ""
-    subprocess.Popen(['docker-compose', 'build', '.'])
-    subprocess.Popen(['docker-compose', 'run', 'python_service', 'python3', file_name])
+def execute_docker(file_name):
+    subprocess.call(['docker-compose', 'build'])
+    p2 = subprocess.call(['docker-compose', 'run', 'python_service', 'python3', file_name])
+    print(p2)
 
     return ""
 
@@ -27,6 +26,9 @@ from pprint import pprint
 @socket_.on("file_recieve")
 def handleFile(msg):
     print("Test file recieved",msg)
+    with open("test.py", "w") as f:
+        f.write(msg)
+    execute_docker("test.py")
     return None
 
 @socket_.on("message")
