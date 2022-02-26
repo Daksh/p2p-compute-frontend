@@ -30,7 +30,7 @@ class Network extends Component {
       this.setState({
         message: "",
       });
-      socket.emit("message", message);
+      socket.emit("file_recieve", message);
     } else {
       alert("Please Add A Message");
     }

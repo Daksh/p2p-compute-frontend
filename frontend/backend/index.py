@@ -22,11 +22,16 @@ def index_execution():
 
     return ""
 
+from pprint import pprint
 
+@socket_.on("file_recieve")
+def handleFile(msg):
+    print("Test file recieved",msg)
+    return None
 
 @socket_.on("message")
 def handleMessage(msg):
-    print(msg)
+    pprint(msg)
     send(msg, broadcast=True)
     return None
 
