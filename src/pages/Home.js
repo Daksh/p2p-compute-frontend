@@ -29,7 +29,7 @@ function Home() {
                         </ul>
                     </header> */}
 
-                    <p className="coords">N 49° 16' 35.173"  /  W 0° 42' 11.30"</p>
+                    <p className="coords">N 51° 45' 38.268" /  W 1° 15' 45.7164"</p>
 
                     <div className="ellipses-container">
 
