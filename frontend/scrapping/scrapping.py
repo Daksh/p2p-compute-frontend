@@ -1,4 +1,5 @@
 import subprocess
+from urllib import response
 
 
 def install():
@@ -6,7 +7,7 @@ def install():
     subprocess.call(["pip", "install", "thefuzz", "yelp", "requests"])
 
 
-install()
+# install()
 
 import json
 import urllib.parse
@@ -24,15 +25,14 @@ def write_output(output):
 
 
 def process_company(company):
-    result = send_api_request(company["name"])
-    with open("data.json", "a+") as f:
-        f.write('{"name": "' + company["name"] + '", "result": ')
-        f.write(json.dumps(result))
-        f.write("},")
-    google_score = get_google_score(company["name"], result) if result else 0
-    print(google_score)
-    return {"name": company["name"], "rating": google_score}
+    gscore = google_scrapper(company)
+    yscore = yelp_scrapper(company)
+    return {"name": company["name"], "rating": gscore + yscore}
 
+def google_scrapper(company):
+    result = send_google_api_request(company["name"])
+    google_score = get_google_score(company["name"], result) if result else 0
+    return google_score
 
 def process(filename):
     pre_data = urllib.request.urlopen("https://raw.githubusercontent.com/saltpay/oxfordhack-minichallenge/master/input-alt.json").read()
@@ -43,10 +43,10 @@ def process(filename):
 
 def get_google_score(name, response):
     name_similarity = fuzz.token_sort_ratio(name, response["result"]["name"])
-    return 1 if name_similarity > 90 else 0
+    return 2 if name_similarity > 90 else 0
 
 
-def send_api_request(name):
+def send_google_api_request(name):
     api_key = "AIzaSyBTYI_bAtT6TP__w7OLFqxnydfFBBF9un8"
     query = name
     service_url = "https://kgsearch.googleapis.com/v1/entities:search"
@@ -62,24 +62,33 @@ def send_api_request(name):
     return response["itemListElement"][0] if response["itemListElement"] else {}
 
 
-def yelp_scrapper():
+def yelp_scrapper(company):
+    response = send_yelp_api_request(company)
+    yelp_score = get_yelp_score(company['name'], response) if response else 0
+    return yelp_score
+
+
+def get_yelp_score(name, response):
+    name_similarity = fuzz.token_sort_ratio(name, response["name"])
+    if name_similarity < 65:
+        return 0
+    return 2 + get_review_score(response['review_count'])
+    
+
+def get_review_score(review_count):
+    return min(100, review_count) / 100 * 6
+
+def send_yelp_api_request(company):
     MY_API_KEY = "xgtN0hq4WTZcd_42NJXze7vNbVsHOVxyf38ibF-RWHj9Y6zOwWbNMagWyfyXmJeCGupWtE1XWG6zTz-NLRvQ6qGveO3GSYW4DAMk31XkXmP4reMYU757Z9tj4vUaYnYx "
 
     headers = {"Authorization": "Bearer %s" % MY_API_KEY}
     url = "https://api.yelp.com/v3/businesses/search"
+    params = {"term": company['name'], 'location': company['address']}
 
-    # In the dictionary, term can take values like food, cafes or businesses like McDonalds
-    params = {"term": "seafood", "location": "New York City"}
-
-    req = requests.get(url, params=params, headers=headers)
-
-    # proceed only if the status code is 200
-    print("The status code is {}".format(req.status_code))
-    print( json.loads(req.text) )
-
-    # business_response = client.business.search('Starbucks')
+    response = requests.get(url, params=params, headers=headers)
+    response = json.loads(response.text)
+    return response['businesses'][0] if response['businesses'] else {}
 
 
 if __name__ == "__main__":
     process("input.json")
-    yelp_scrapper()
