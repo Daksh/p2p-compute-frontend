@@ -11,6 +11,10 @@ const Network = () => {
   const [processOutput, setProcessOutput] = useState()
   
   useEffect(() => {
+    socket.on('connect', function() {
+      socket.emit('connected');
+    });
+    
     socket.on("processing_done", (msg) => {
       setProcessOutput(msg)
       setUploading(false)
@@ -21,8 +25,6 @@ const Network = () => {
     setUploading(true)
     socket.emit("file_uploaded", content);
   };
-
-  
 
   return (
     <div>
