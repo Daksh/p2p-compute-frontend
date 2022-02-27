@@ -29,7 +29,6 @@ def connected():
     clients.append(request.sid)
     print("[after append] clients:",clients)
 
-# does this ever get triggerred???
 @socket_.on('disconnect')
 def disconnect():
     print(f"{request.sid} disconnected")
