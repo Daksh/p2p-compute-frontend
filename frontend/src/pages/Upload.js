@@ -2,10 +2,11 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 
 function Upload() {
+  
     return (
       <div className="Upload">
         <header className="Home-header">
-            <div>Upload</div>
+            <div>Uploadd</div>
             <Link to="/jobs">See running jobs</Link>
         </header>
       </div>

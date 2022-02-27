@@ -16,28 +16,22 @@ def index():
 
 def execute_docker(file_name):
     subprocess.call(['docker-compose', 'build'])
-    p2 = subprocess.call(['docker-compose', 'run', 'python_service', 'python3', file_name])
-    print(p2)
-
-    return ""
+    f = open("output.txt", "w")
+    subprocess.call(['docker-compose', 'run', 'python_service', 'python3', file_name], stdout=f)
+    f = open("output.txt", "r")
+    return f.read()
 
 from pprint import pprint
 
-@socket_.on("file_recieve")
+@socket_.on("file_uploaded")
 def handleFile(msg):
     print("Test file recieved",msg)
     with open("test.py", "w") as f:
         f.write(msg)
-    execute_docker("test.py")
+    res = execute_docker("test.py")
+    emit("processing_done",res)
     return None
-
-@socket_.on("message")
-def handleMessage(msg):
-    pprint(msg)
-    send(msg, broadcast=True)
-    return None
-
 
 
 if __name__ == '__main__':
-    socket_.run(app, debug=True, host='0.0.0.0')
+    socket_.run(app, debug=True, host='0.0.0.0', port=5001)

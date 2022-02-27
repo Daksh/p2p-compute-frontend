@@ -1,59 +1,34 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
+import { UploadButton } from "./UploadButton";
+import {Download} from "./Download";
 
-let endPoint = "http://localhost:5000";
+let endPoint = "http://localhost:5001";
 let socket = io.connect(`${endPoint}`);
 
-class Network extends Component {
-  state = {
-    messages: ["Hello and Welcome"],
-    message: "",
+const Network = () => {
+  const [uploading, setUploading] = useState(false)
+  const [processOutput, setProcessOutput] = useState()
+  
+  useEffect(() => {
+    socket.on("processing_done", (msg) => {
+      setProcessOutput(msg)
+      setUploading(false)
+    })
+  }, []);
+
+  const setContent = (content) => {
+    setUploading(true)
+    socket.emit("file_uploaded", content);
   };
 
-  componentDidMount = () => {
-    socket.on("message", (msg) => {
-      this.setState({
-        messages: [...this.state.messages, msg],
-      });
-    });
-  };
+  
 
-  onChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  onClick = () => {
-    const { message } = this.state;
-    if (message !== "") {
-      this.setState({
-        message: "",
-      });
-      socket.emit("file_recieve", message);
-    } else {
-      alert("Please Add A Message");
-    }
-  };
-
-  render() {
-    const { messages, message } = this.state;
-    return (
-      <div>
-        {messages.length > 0 &&
-          messages.map((msg) => (
-            <div>
-              <p>{msg}</p>
-            </div>
-          ))}
-        <textarea
-          value={message}
-          name="message"
-          onChange={(e) => this.onChange(e)}
-        />
-        <button onClick={() => this.onClick()}>Send Message</button>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <UploadButton uploading={uploading} setContent={setContent}/>
+      {processOutput ? (<Download processOutput={processOutput}/>) : (<></>)}
+    </div>
+  );
 }
 export default Network;

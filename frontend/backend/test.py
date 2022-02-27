@@ -1,4 +1,1 @@
-def fn():
-    print("Hello how are you")
-
-fn()
+print('hello')
