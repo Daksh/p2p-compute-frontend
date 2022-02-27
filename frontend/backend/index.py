@@ -47,6 +47,31 @@ def handleFile(msg):
     emit("processing_done",res)
     return None
 
+import socketio
+
+# standard Python
+sio = socketio.Client()
+
+@sio.event
+def connect():
+    print("I'm connected!")
+
+@sio.event
+def connect_error(data):
+    print("The connection failed!")
+
+@sio.event
+def disconnect():
+    print("I'm disconnected!")
+
+@sio.on('file_recieved')
+def on_message(data):
+    print('I received a file!')
+    send(data, broadcast=True)
+
+
 
 if __name__ == '__main__':
     socket_.run(app, debug=True, host='0.0.0.0', port=5001)
+    sio.connect('http://localhost:5002') # global host
+
