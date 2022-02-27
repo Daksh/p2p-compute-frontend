@@ -7,7 +7,7 @@ import io from "socket.io-client";
 
 let endPoint = "http://localhost:5001";
 let socket = io.connect(`${endPoint}`);
-let machinesGlobal = {};
+let machinesGlobal = {available: [], running: []};
 
 function App() {
 
@@ -32,7 +32,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/network" element={<Jobs machines={{running: [], available: []}} connected={connected} onConnect={onConnect} />} />
+        <Route path="/network" element={<Jobs machines={machines} connected={connected} onConnect={onConnect} />} />
         <Route path="/upload" element={<Network />}/>
         <Route path="/jobs" element={<Network/>}/>
       </Routes>
