@@ -63,6 +63,7 @@ export const UploadButton = ({uploading, uploaded, setContent}) => {
             Completed
         </div>
     </div>
+    <div style={{height: '300px'}}></div>
     </body>
 
     )

@@ -9,7 +9,7 @@ let socket = io.connect(`${endPoint}`);
 
 export const Processes = () => {
 
-    const [processed, setProcessed] = useState([{id: '1', data:'aa'}])
+    const [processed, setProcessed] = useState([])
     const toast = useToast()
     useEffect(() => {
         socket.on('connect', function() {
@@ -39,7 +39,7 @@ export const Processes = () => {
 
       return (
           <ChakraProvider>
-          <Table size='lg' colorScheme={"twitter"} variant="simple" style={{fontSize:"1.em", width: "40%", textAlign: "center", margin: "auto", marginTop: "10%"}}>
+          <Table size='lg' colorScheme={"twitter"} variant="simple" style={{fontSize:"1.em", width: "40%", textAlign: "center", margin: "auto", marginTop: "3%"}}>
             <Thead  style={{fontSize:"2em"}}>
                 <Tr>
                 <Th>Id</Th>

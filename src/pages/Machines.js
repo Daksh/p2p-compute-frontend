@@ -34,7 +34,7 @@ export const Machines = ({ machines }) => {
           width: "40%",
           textAlign: "center",
           margin: "auto",
-          marginTop: "10%",
+          marginTop: "3%",
         }}
       >
         <Thead style={{ fontSize: "2em" }}>

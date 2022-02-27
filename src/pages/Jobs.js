@@ -6,6 +6,7 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Button,
+  Heading
 } from "@chakra-ui/react";
 
 let endPoint = "http://localhost:5001";
@@ -61,6 +62,9 @@ const Jobs = ({ machines, connected, onConnect }) => {
           <BreadcrumbLink href='/network'>Process</BreadcrumbLink>
         </BreadcrumbItem> */}
       </Breadcrumb>
+      <Heading as='h2' size='2xl' style={{textAlign: 'center', marginTop: "7%"}}>
+   Arko Network
+        </Heading>
       <Machines machines={machines}></Machines>
       <div style={{ marginTop: "5%" }}>
         <Button

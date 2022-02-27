@@ -3,7 +3,7 @@ import io from "socket.io-client";
 import { UploadButton } from "./UploadButton";
 import {Download} from "./Download";
 import { Processes } from "./Processes";
-import {Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button} from "@chakra-ui/react"
+import {Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Heading} from "@chakra-ui/react"
 
 let endPoint = "http://localhost:5001";
 let socket = io.connect(`${endPoint}`);
@@ -39,7 +39,7 @@ const Network = () => {
   };
 
   return (
-    <div>
+    <div style={{height: "130%"}}>
       <Breadcrumb separator='>' fontSize='lg' style={{fontSize: "1.5em", padding: "20px"}} >
         <BreadcrumbItem>
           <BreadcrumbLink href='/'>Home</BreadcrumbLink>
@@ -48,11 +48,10 @@ const Network = () => {
         <BreadcrumbItem>
           <BreadcrumbLink href='/network'>Network</BreadcrumbLink>
         </BreadcrumbItem>
-
-        {/* <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href='/network'>Process</BreadcrumbLink>
-        </BreadcrumbItem> */}
       </Breadcrumb>
+        <Heading as='h2' size='2xl' style={{textAlign: 'center', marginTop: "7%"}}>
+   Your Processes
+        </Heading>
       <Processes></Processes>
       <UploadButton uploading={uploading} setContent={setContent}/>
       {processOutput ? (<Download processOutput={processOutput}/>) : (<></>)}
