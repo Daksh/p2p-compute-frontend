@@ -7,16 +7,17 @@ import io from "socket.io-client";
 
 let endPoint = "http://localhost:5001";
 let socket = io.connect(`${endPoint}`);
-
-socket.on('connect', function() {
-  socket.emit('connected');
-});
+let machinesGlobal = {};
 
 function App() {
 
-  const [machines, setMachines] = useState({})
+  const [machines, setMachines] = useState(machinesGlobal)
   const [connected, setConnected] = useState(false)
   useEffect(() => {
+    socket.on('connect', function() {
+      socket.emit('connected');
+      socket.emit("fetch_m")
+    });
     socket.on("updated_machines", (msg) => {
       setMachines(msg)
     })
