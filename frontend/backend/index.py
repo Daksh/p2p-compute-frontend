@@ -77,6 +77,10 @@ def receive_updated_list(machine_set):
     socket_.emit('updated_machines', machine_set, broadcast=True)
     print(f"update_available_machines got {machine_set}")
 
+@sio.on('error')
+def handle_error():
+    socket_.emit("processing_failed", broadcast=True)
+
 if __name__ == '__main__':
     sio.connect(GLOBAL_IP+':'+GLOBAL_PORT) # global host
     socket_.run(app, debug=True, host='0.0.0.0', port=5001)
