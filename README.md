@@ -1,6 +1,8 @@
-# P2P Compute: Peer Application
+# Arko Peer Application
 
-React, Electron, Chakra Frontend with a Flask Backend
+React, Electron, Chakra Frontend 
+
+[Flask Backend Repository](https://github.com/Daksh/p2p-compute-backend)
 
 ## Installation
 
