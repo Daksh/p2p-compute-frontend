@@ -43,7 +43,7 @@ const Jobs = ({ machines, connected, onConnect }) => {
   };
 
   return (
-    <div>
+    <div style={{ minHeight: "100vh" }}>
       <Breadcrumb
         separator=">"
         fontSize="lg"
@@ -65,9 +65,15 @@ const Jobs = ({ machines, connected, onConnect }) => {
       <div style={{ marginTop: "5%" }}>
         <Button
           onClick={onRegister}
+          size="lg"
           isDisabled={connected}
           colorScheme={connected ? "green" : "blue"}
-          style={{ marginTop: "10%", margin: "auto", display: "block" }}
+          style={{
+            marginTop: "10%",
+            margin: "auto",
+            display: "block",
+            fontSize: "2rem",
+          }}
         >
           {connected ? "Connected" : "Connect"}
         </Button>
