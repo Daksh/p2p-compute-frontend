@@ -11,7 +11,6 @@ app.config['SECRET_KEY'] = 'secret!'
 socket_ = SocketIO(app, cors_allowed_origins="*")
 app.debug = True
 app.host = 'localhost'
-clients = []
 
 # client to connect with the global/central server
 sio = socketio.Client()
@@ -30,17 +29,10 @@ def execute_docker(file_name):
 @socket_.on('connected')
 def connected():
     print(f"{request.sid} connected")
-    print("[before append] clients:",clients)
-    clients.append(request.sid)
-    print("[after append] clients:",clients)
 
 @socket_.on('disconnect')
 def disconnect():
     print(f"{request.sid} disconnected")
-    print("[before remove] clients:",clients)
-    if request.sid in clients:
-        clients.remove(request.sid)
-    print("[after remove] clients:",clients)
 
 @socket_.on("file_uploaded")
 def handleFile(file):
