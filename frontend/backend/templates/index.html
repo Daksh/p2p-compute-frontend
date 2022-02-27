@@ -7,11 +7,10 @@
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
 
-            namespace = '/test';
-            var socket = io(namespace);
+            var socket = io.connect('http://localhost:5000');
 
             socket.on('connect', function() {
-                socket.emit('my_event', {data: 'connected to the SocketServer...'});
+                socket.emit('connected');
             });
 
             socket.on('my_response', function(msg, cb) {

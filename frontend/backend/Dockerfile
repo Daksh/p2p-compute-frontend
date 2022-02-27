@@ -1,9 +1,9 @@
 # syntax=docker/dockerfile:1
 
-FROM python:3.9-slim-buster
+FROM python:3.8-slim-buster
 
 WORKDIR /
 
-COPY requirements.txt .
-COPY *.py .
+COPY test.py test.py
 
+CMD [ "python", "test.py" ]
