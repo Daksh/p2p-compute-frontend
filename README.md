@@ -2,13 +2,28 @@
 
 React, Electron, Chakra Frontend with a Flask Backend
 
-**Installation:**
+## Installation
 
 ```sh
 python3 -m venv venv
-. venv/bin/activate
-
 pip3 install -r requirements.txt
 
-npm i && npm run dev
+npm install
+```
+
+## Run
+
+### Backend
+
+```
+. venv/bin/activate
+cd backend 
+python index.py
+```
+
+### Frontend
+
+```
+. venv/bin/activate
+npm start
 ```
