@@ -7,7 +7,7 @@ def install():
     subprocess.call(["pip", "install", "thefuzz", "yelp", "requests"])
 
 
-# install()
+install()
 
 import json
 import urllib.parse
