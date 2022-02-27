@@ -14,7 +14,7 @@ const Network = () => {
     socket.on('connect', function() {
       socket.emit('connected');
     });
-    
+
     socket.on("processing_done", (msg) => {
       setProcessOutput(msg)
       setUploading(false)
@@ -26,10 +26,16 @@ const Network = () => {
     socket.emit("file_uploaded", content);
   };
 
+  const onRegister = () => {
+    console.log('onRegister called');
+    socket.emit('register_this_machine');
+  };
+
   return (
     <div>
       <UploadButton uploading={uploading} setContent={setContent}/>
       {processOutput ? (<Download processOutput={processOutput}/>) : (<></>)}
+      <button onClick={onRegister}>Register</button>
     </div>
   );
 }
