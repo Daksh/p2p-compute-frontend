@@ -70,7 +70,7 @@ def disconnect():
 
 @sio.on('send_file_to_local')
 def receive_file(file):
-    print('I received a file!')
+    print(f'I received a file!')
     with open("test.py", "w") as f:
         f.write(file)
     res = execute_docker("test.py")
@@ -79,6 +79,11 @@ def receive_file(file):
 @sio.on('send_result_to_local')
 def receive_result(res):
     socket_.emit("processing_done", res, broadcast=True)
+
+@sio.on('update_available_machines')
+def receive_updated_list(machine_set):
+    socket_.emit('updated_machines', machine_set, broadcast=True)
+    print(f"update_available_machines got {machine_set}")
 
 if __name__ == '__main__':
     sio.connect(GLOBAL_IP+':'+GLOBAL_PORT) # global host

@@ -19,6 +19,11 @@ const Network = () => {
       setProcessOutput(msg)
       setUploading(false)
     })
+
+    socket.on("updated_machines", (msg) => {
+      console.log("updated machines")
+      console.log(msg)
+    })
   }, []);
 
   const setContent = (content) => {
