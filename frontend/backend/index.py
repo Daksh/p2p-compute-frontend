@@ -48,6 +48,10 @@ def handleRegisterRequest():
 def handleUnregisterRequest():
     sio.emit('unregister_compute')
 
+@socket_.on("fetch_m")
+def sendM():
+    sio.emit('fetch_machines')
+
 @sio.event
 def connect():
     print("I'm connected!")
